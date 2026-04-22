@@ -1,4 +1,4 @@
-import json, os, argparse, logging
+import json, os, argparse, logging, glob
 
 bible_books = {
         "Protestant" : {
@@ -14,8 +14,7 @@ bible_books = {
                     "1TS", "2TS", "1TI", "2TI", "TIT", "FLM",
                     "HEB", "STG", "1PE", "2PE", "1JN", "2JN",
                     "3JN", "JUD", "APO"]
-        }
-    }
+        } 
 
 def metadata_collector():
     confirmed = 0
@@ -57,7 +56,7 @@ def metadata_collector():
             }
     },
 
-def build_json_from_txt(input_path, output_path):
+def build_json_from_txt(input_path, output_path, chapter_keyword):
     metadata    = []
     verses      = []
 
@@ -67,6 +66,7 @@ def build_json_from_txt(input_path, output_path):
             logging.debug(f'Opening {output_path} to confirm existance/metadata...')
             json_data = json.load(f)
             metadata  = json_data['metadata']
+            verses    = json_data['verses']
     except FileNotFoundError as e:
         logging.error(f'File not found, creating... ')
 
@@ -87,8 +87,7 @@ def build_json_from_txt(input_path, output_path):
         book_subt = ''
         book_code = 0
         section   = 'foo' # TODO: ?
-    
-        chapter_keyword = input('Chapter keyword/phrase (check doc if necessary): ')
+   
         # chapter_keyword = 'Ĉapitro' 
         chapter     = 0
         verse_num   = 0
@@ -158,13 +157,22 @@ def build_json_from_txt(input_path, output_path):
 
     return 0
 
-def main(verbose):
-    if(1):
+def main(verbose, files):
+    if(verbose):
         logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
     else:
         logging.basicConfig(level = logging.WARNING) # Only show errors by default
-    
-    build_json_from_txt('../bibles/39biblio.mal_formatted.txt', '../bibles/esperanto.json')
+
+    all_files = []
+    for pattern in files:
+        expanded = glob.glob(pattern)
+        if(not expanded):
+            print(f"Warning: No files matched pattern '{pattern}'")
+        all_files.extend(expanded)
+
+    chapter_keyword = input('Chapter keyword/phrase (check doc if necessary): ')
+    for file_path in all_files:
+        build_json_from_txt(file_path, '../bibles/esperanto.json', chapter_keyword)
 
     return 0
 
@@ -174,9 +182,10 @@ if __name__ == "__main__":
             description = 'a script to transform the bibles in txt format to the json files for the website',
             epilog      = 'made with <3 by ponchoima')
 
-    parser.add_argument('-v', '--verbose', action = 'store_true',
+    parser.add_argument('-f', '--files', nargs = '+', required = True,
+                        help = 'path(s) for file(s) to parse (supports wildcards like *.utf)')
+    parser.add_argument('-v', '--verbose', action = 'store_true', default = False,
                         help = 'outputs the steps it follows')
 
     args = parser.parse_args()
-
-    main(args.verbose)
+    main(args.verbose, args.files)
