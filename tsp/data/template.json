@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "version_info": {
+      "codename": "TEMP2026",
+      "version_id": "ESP_SYN",
+      "title_full": "Template Bible",
+      "language": "en",
+      "abbreviation": "TEMP",
+      "versification_system": "Western/Protestant",
+      "has_old_testament": true,
+      "has_new_testament": true
+    },
+    "archival_info": {
+      "translator": "PonchoIMa",
+      "publication_date": "2026",
+      "copyright": "Public Domain",
+      "source_format": "NA",
+      "digital_source": "NA"
+    }
+  },
+  "data": [
+    {
+      "book_dbid": "OT_23",
+      "book_name": "JESAJA",
+      "book_code": "JES",
+      "section": "Prophets",
+      "verses": [
+        {
+          "uvid": "JES.55.1",
+          "chapter": 55,
+          "verse": 1,
+          "text": "Ho, ĉiuj soifantoj, venu al la akvo; kaj kiu ne havas monon, venu, aĉetu kaj manĝu; venu, aĉetu sen mono kaj senpago vinon kaj lakton.",
+          "pericope": "Alvoko al la soifantoj",
+          "formatting": {
+            "is_poetry": true,
+            "indent_level": 1
+          },
+          "thematic_tags": [],
+          "cross_references": []
+        }
+      ]
+    }
+  ]
+}
