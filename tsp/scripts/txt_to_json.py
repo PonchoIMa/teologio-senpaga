@@ -1,5 +1,8 @@
 import json, os, argparse, logging, glob
 
+# TODO: When changing chapters, the script adds the captured text in verse 0;
+# it should generate last verse from previous chapter instead.
+
 bible_books = {
         "Protestant" : {
             "OT" : ["GEN", "EXO", "LEV", "NUM", "DET", "JOS",
@@ -20,12 +23,12 @@ def metadata_collector():
     confirmed = 0
 
     while(confirmed != 'y'):
+        # TODO: Validate that is ISO formatted
         language        = input("Language (default = 'en'): ") or 'en'
         title_full      = input("Title: ")
         abbreviation    = input("Abbreviation: ")
         # TODO : Output a list to choose the system.
-        versification   = input("Verse System: ")
-        translator      = input("Translator (default = 'PonchoIMa'): ") or 'PonchoIMa'
+        versification   = input("Verse System: ") translator      = input("Translator (default = 'PonchoIMa'): ") or 'PonchoIMa'
         # TODO : datetime - this year
         publication     = input("Publication Date (default = 2026): ") or '2026'
         copyright       = input("Copyright (default = 'Public Domain'): ") or 'Public Domain'

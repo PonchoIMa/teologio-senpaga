@@ -9,9 +9,13 @@ class BibleVersion(db.Model):
     # abbreviation for the bible (NBLA, EO_LSB, etc...)
     abbreviation  = db.Column(db.String(10), unique = True, nullable = False) 
     title_full    = db.Column(db.String(255), nullable = False) 
+    verse_system  = db.Column(db.String(30), nullable = False) 
 
     # for future implementation (eo, en, es, ru)
-    language_code = db.Column(db.String(5), nullable = False) 
+    language_code       = db.Column(db.String(5), nullable = False) 
+    copyright           = db.Column(db.Text, nullable = False) 
+    description         = db.Column(db.Text, nullable = False) 
+    publication_date    = db.Column(db.Date) 
 
     # relationships
     verses        = db.relationship('Verse', backref = 'version_meta', lazy = True)
