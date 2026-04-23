@@ -18,7 +18,7 @@ def seed_database(json_path):
             version = BibleVersion(
                         abbreviation        = v_meta['abbreviation'],
                         title_full          = v_meta['title_full'],
-                        verse_system        = v_meta['versification'],
+                        verse_system        = v_meta['verse_system'],
                         language_code       = v_meta['language'],
                         copyright           = v_meta['copyright'],
                         description         = 'lorem ipsum',

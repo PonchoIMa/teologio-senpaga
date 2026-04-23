@@ -1,8 +1,11 @@
 import json, os, argparse, logging, glob
 
-# TODO: When changing chapters, the script adds the captured text in verse 0;
+# TOTEST: When changing chapters, the script adds the captured text in verse 0
 # it should generate last verse from previous chapter instead.
 
+# TODO: Pericope logic
+
+# TODO: Solve this?
 bible_books = {
         "Protestant" : {
             "OT" : ["GEN", "EXO", "LEV", "NUM", "DET", "JOS",
@@ -28,36 +31,25 @@ def metadata_collector():
         title_full      = input("Title: ")
         abbreviation    = input("Abbreviation: ")
         # TODO : Output a list to choose the system.
-        versification   = input("Verse System: ") translator      = input("Translator (default = 'PonchoIMa'): ") or 'PonchoIMa'
+        versification   = input("Verse System: ")
         # TODO : datetime - this year
-        publication     = input("Publication Date (default = 2026): ") or '2026'
+        pub_date        = input("Publication Date (default = 2026): ") or '2026'
         copyright       = input("Copyright (default = 'Public Domain'): ") or 'Public Domain'
-        source_format   = input("Source Format: ") or 'NA'
-        digital_source  = input("Digital Source: ") or 'NA'
+        description     = input("Description: ")
 
         # TODO: Prompt information
         confirmed = input('Is this information correct? (y/n): ').lower()[0] 
 
     # Dump collected info into metadata
     return {
-            "version_info" : {
-                "title_full"            : title_full,
-                "language"              : language,
-                "abbreviation"          : abbreviation,
-                "versification_system"  : versification,
-                "has_old_testament"     : 1,
-                "has_new_testament"     : 1,
-                "has_apocrypha"         : 0,
-                "has_pseudepigrapha"    : 0
-            },
-            "archival_info": {
-                "translator"            : translator,
-                "publication_date"      : publication,
-                "copyright"             : copyright,
-                "source_format"         : source_format,
-                "digital_source"        : digital_source
-            }
-    },
+        "abbreviation"          : abbreviation,
+        "title_full"            : title_full,
+        "verse_system"          : verse_system,
+        "language_code"         : language,
+        "copyright"             : copyright,
+        "description"           : description,
+        "publication_date"      : publication,
+    }
 
 def build_json_from_txt(input_path, output_path, chapter_keyword):
     metadata    = []
@@ -84,17 +76,16 @@ def build_json_from_txt(input_path, output_path, chapter_keyword):
         pass
 
     with open(input_path, 'r+', encoding='utf-8') as f:
-        
-        book_dbid = 1 # TODO
         book_name = 0 
         book_subt = ''
         book_code = 0
-        section   = 'foo' # TODO: ?
    
         # chapter_keyword = 'Ĉapitro' 
         chapter     = 0
         verse_num   = 0
         verse_txt   = ''
+        pericope    = ''
+
         for line in f:
             logging.debug(f'New line: {line}') 
 
@@ -114,6 +105,18 @@ def build_json_from_txt(input_path, output_path, chapter_keyword):
                     if(int(line.split()[1]) != chapter + 1):
                         logging.WARNING(f'Chapter alignment does not match. Calculated is {chapter} while captured is {line.split()[1]}!')
                         pass
+
+                    # Add the last verse from past chapter
+                    if(chapter != 0):
+                        # dump the previous text.
+                        verses.append({
+                            "uvid"      : f"{book_code}.{chapter}.{verse_num}",
+                            "chapter"   : chapter,
+                            "verse"     : verse_num,
+                            "text"      : verse_txt,
+                            "pericope"  : pericope,
+                        })
+
                     chapter   += 1
                     verse_num = 0
                     continue
@@ -124,13 +127,16 @@ def build_json_from_txt(input_path, output_path, chapter_keyword):
                     if(int(candidate_verse[0])):
                         if(int(candidate_verse[0]) != verse_num + 1):
                            logging.warning(f'Verse alignment has failed')
+
                         # dump the previous text.
-                        verses.append({
-                            "uvid"      : f"{book_code}.{chapter}.{verse_num}",
-                            "chapter"   : chapter,
-                            "verse"     : verse_num,
-                            "text"      : verse_txt,
-                        })
+                        if(verse_num != 0):
+                            verses.append({
+                                "uvid"      : f"{book_code}.{chapter}.{verse_num}",
+                                "chapter"   : chapter,
+                                "verse"     : verse_num,
+                                "text"      : verse_txt,
+                                "pericope"  : pericope,
+                            })
         
                         # begin a new verse
                         verse_num += 1
@@ -151,6 +157,7 @@ def build_json_from_txt(input_path, output_path, chapter_keyword):
             "chapter"   : chapter,
             "verse"     : verse_num,
             "text"      : verse_txt,
+            "pericope"  : pericope,
         })
 
     with open(output_path, 'r+', encoding = 'utf-8') as f:
