@@ -5,23 +5,6 @@ import json, os, argparse, logging, glob
 
 # TODO: Pericope logic
 
-# TODO: Solve this?
-bible_books = {
-        "Protestant" : {
-            "OT" : ["GEN", "EXO", "LEV", "NUM", "DET", "JOS",
-                    "JUE", "RUT", "1SA", "2SA", "1RE", "2RE",
-                    "1CR", "2CR", "ESD", "NEH", "EST", "JOB",
-                    "SAL", "PRV", "ECL", "CNT", "ISA", "JER",
-                    "LAM", "EZQ", "DAN", "OSE", "JOL", "AMO",
-                    "ABD", "JON", "MIQ", "NAH", "HAB", "SOF",
-                    "HAG", "ZAC", "MAL"],
-            "NT" : ["MAT", "MAR", "LUC", "JUA", "HCH", "ROM",
-                    "1CO", "2CO", "GAL", "EFE", "FIL", "COL",
-                    "1TS", "2TS", "1TI", "2TI", "TIT", "FLM",
-                    "HEB", "STG", "1PE", "2PE", "1JN", "2JN",
-                    "3JN", "JUD", "APO"]
-        } 
-
 def metadata_collector():
     confirmed = 0
 
@@ -31,7 +14,7 @@ def metadata_collector():
         title_full      = input("Title: ")
         abbreviation    = input("Abbreviation: ")
         # TODO : Output a list to choose the system.
-        versification   = input("Verse System: ")
+        verse_system    = input("Verse System: ")
         # TODO : datetime - this year
         pub_date        = input("Publication Date (default = 2026): ") or '2026'
         copyright       = input("Copyright (default = 'Public Domain'): ") or 'Public Domain'
@@ -48,12 +31,17 @@ def metadata_collector():
         "language_code"         : language,
         "copyright"             : copyright,
         "description"           : description,
-        "publication_date"      : publication,
+        "publication_date"      : 'TBD' # TODO: publication,
     }
 
 def build_json_from_txt(input_path, output_path, chapter_keyword):
     metadata    = []
     verses      = []
+    bible_books = {} 
+
+    with open('../data/bible_names.json', 'r', encoding = 'utf-8') as f:
+        json_data    = json.load(f)
+        bible_books  = json_data['bible_books']
 
     # Verify there's metadata / file exists
     try:
@@ -87,13 +75,31 @@ def build_json_from_txt(input_path, output_path, chapter_keyword):
         pericope    = ''
 
         for line in f:
+            if(line[-1] == '\n'):
+                line = line[:-1]
             logging.debug(f'New line: {line}') 
 
             # First line is title
             if(not book_name):
-                book_name = line
-                book_code = input(f'Book code for {book_name}: ').upper()
-                continue
+                logging.debug(f'Processing line: {line}') 
+                book_name       = line
+                automatic_find  = False
+                
+                logging.debug(f'Processing title against candidates: {line}') 
+                # Find book name against bible_books
+                for candidate in bible_books.keys():
+                    if(candidate.upper() in line.upper()):
+                        logging.debug(f'Candidate \'{candidate}\' has been found for \'{line}\'!')
+                        confirmed = input(f'Confirm code \'{bible_books[candidate]}\' for {book_name} [Y/N]: ').upper()
+                        if('Y' in confirmed):
+                            book_code       = bible_books[candidate]
+                            automatic_find  = True
+                            break
+
+                if(not automatic_find):
+                    book_code = input(f'Book code for {book_name}: ').upper()
+                    # TODO: Validate input against known keys
+                    continue
             
             # Until first chapter, everything is subtitle
             if(not chapter and not chapter_keyword in line):
