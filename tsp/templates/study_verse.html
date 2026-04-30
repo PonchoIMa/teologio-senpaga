@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--Vibecoded template for copy-pasting / improving purposes... Not sticking to this thing, though-->
+<html lang="{{ verse.version_meta.language_code }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSP | {{ verse.uvid }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+
+    <section class="sidebar">
+        <span class="label">teksto</span>
+        <h1>{{ verse.book_code }} {{ verse.chapter }}:{{ verse.verse }}</h1>
+        <p style="color: var(--dim);">{{ verse.version_meta.title_full }}</p>
+
+        <div class="verse-box">
+            {% if verse.pericope %}
+                <p style="font-style: italic; color: var(--accent);">{{ verse.pericope }}</p>
+            {% endif %}
+            <span class="verse-num">[{{ verse.verse }}]</span> {{ verse.text }}
+        </div>
+    </section>
+    <!--
+    <main class="main-content">
+        <section>
+            <div class="section-title"><span class="label">temoj</span></div>
+            {% if topics %}
+                <ul>
+                {% for topic in topics %}
+                    <li>{{ topic.name }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: var(--dim);">Neniu temo ligita ankoraŭ.</p>
+            {% endif %}
+        </section>
+
+        <section>
+            <div class="section-title"><span class="label">rimarkoj / rimedoj</span></div>
+            {% if resources %}
+                {% for res in resources %}
+                    <p><strong>{{ res.title }}</strong><br><small>{{ res.file_path }}</small></p>
+                {% endfor %}
+            {% else %}
+                <p style="color: var(--dim);">Neniu rimedo trovita.</p>
+            {% endif %}
+        </section>
+    </main>
+    -->
+</body>
+</html>
