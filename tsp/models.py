@@ -28,9 +28,7 @@ class Verse(db.Model):
     # universal verse id - to identify the text to be cited.
     uvid        = db.Column(db.String(20), unique = True, nullable = False)
 
-    # TODO: Create a curated book code list that the database can get
-    # TODO: Sovle for this
-    # book_code   = db.Column(db.String(5), nullable = False) 
+    book_name   = db.Column(db.String(50), nullable = False) 
     chapter     = db.Column(db.Integer, nullable = False) 
     verse       = db.Column(db.Integer, nullable = False) 
     text        = db.Column(db.Text, nullable = False) 

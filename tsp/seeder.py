@@ -40,7 +40,7 @@ def seed_database(json_path):
                 new_verse = Verse(
                         version_id  = version_id, # TODO: Extract v_id from 'version'
                         uvid        = verse['uvid'],
-                        # book_code   = verse['book_code'],
+                        book_name   = verse['book_name'],
                         chapter     = verse['chapter'],
                         verse       = verse['verse'],
                         text        = verse['text'],

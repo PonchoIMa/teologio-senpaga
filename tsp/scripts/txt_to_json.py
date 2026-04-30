@@ -117,6 +117,7 @@ def build_json_from_txt(input_path, output_path, chapter_keyword):
                         # dump the previous text.
                         verses.append({
                             "uvid"      : f"{book_code}.{chapter}.{verse_num}",
+                            "book_name" : book_name,
                             "chapter"   : chapter,
                             "verse"     : verse_num,
                             "text"      : verse_txt,
