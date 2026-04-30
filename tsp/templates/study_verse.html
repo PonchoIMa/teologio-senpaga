@@ -14,8 +14,8 @@
 
     <section class="sidebar">
         <span class="label">teksto</span>
-        <h1>{{ verse.book_code }} {{ verse.chapter }}:{{ verse.verse }}</h1>
-        <p style="color: var(--dim);">{{ verse.version_meta.title_full }}</p>
+        <h1>{{ verse.book_name }} {{ verse.chapter }}:{{ verse.verse }}</h1>
+        <p style="color: var(--accent);">{{ verse.version_meta.title_full }}</p>
 
         <div class="verse-box">
             {% if verse.pericope %}
@@ -23,11 +23,12 @@
             {% endif %}
             <span class="verse-num">[{{ verse.verse }}]</span> {{ verse.text }}
         </div>
+
+        <span class="label">temoj</span>
     </section>
-    <!--
     <main class="main-content">
         <section>
-            <div class="section-title"><span class="label">temoj</span></div>
+            <div class="section-title"><span class="label">komentoj</span></div>
             {% if topics %}
                 <ul>
                 {% for topic in topics %}
@@ -38,7 +39,7 @@
                 <p style="color: var(--dim);">Neniu temo ligita ankoraŭ.</p>
             {% endif %}
         </section>
-
+    <!--
         <section>
             <div class="section-title"><span class="label">rimarkoj / rimedoj</span></div>
             {% if resources %}
@@ -49,7 +50,7 @@
                 <p style="color: var(--dim);">Neniu rimedo trovita.</p>
             {% endif %}
         </section>
-    </main>
     -->
+    </main>
 </body>
 </html>

@@ -1,4 +1,4 @@
-import json, os, argparse, logging, glob
+import json, os, argparse, logging, glob, re
 
 # TOTEST: When changing chapters, the script adds the captured text in verse 0
 # it should generate last verse from previous chapter instead.
@@ -139,6 +139,7 @@ def build_json_from_txt(input_path, output_path, chapter_keyword):
                         if(verse_num != 0):
                             verses.append({
                                 "uvid"      : f"{book_code}.{chapter}.{verse_num}",
+                                "book_name" : book_name,
                                 "chapter"   : chapter,
                                 "verse"     : verse_num,
                                 "text"      : verse_txt,
@@ -147,20 +148,21 @@ def build_json_from_txt(input_path, output_path, chapter_keyword):
         
                         # begin a new verse
                         verse_num += 1
-                        verse_txt = candidate_verse[1]
+                        verse_txt = re.sub(r"[ ]+", r" ", candidate_verse[1])[1:]
                         continue
     
                 except ValueError as e:
                     # No initial verse, adding to the current verse and continuing
-                    logging.warning(f'The text \'{candidate_verse}\' does note appear to have a verse identifier, adding to verse {verse_num}...')
+                    logging.warning(f'The text \'{" ".join(candidate_verse)}\' does note appear to have a verse identifier, adding to verse {verse_num}...')
     
                 # Look for pericopes
-                verse_txt += line
+                verse_txt += re.sub(r"[ ]+", r" ", line)[1:]
                 continue
             
         # Dumping the last verse captured (if not added?) 
         verses.append({
             "uvid"      : f"{book_code}.{chapter}.{verse_num}",
+            "book_name" : book_name,
             "chapter"   : chapter,
             "verse"     : verse_num,
             "text"      : verse_txt,
