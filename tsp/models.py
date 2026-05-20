@@ -20,6 +20,26 @@ class BibleVersion(db.Model):
     # relationships
     verses        = db.relationship('Verse', backref = 'version_meta', lazy = True)
 
+class Resource(db.Model):
+    # identifiers
+    id                  = db.Column(db.Integer, primary_key = True) 
+    resource_id         = db.Column(db.String(50), nullable = False, unique = True)
+
+    # metadata
+    author_family       = db.Column(db.String(30), nullable = False)
+    author_given        = db.Column(db.String(20))
+    publication_year    = db.Column(db.Integer)
+    publication_month   = db.Column(db.String(10))
+    publication_day     = db.Column(db.Integer)
+    title               = db.Column(db.String(80), nullable = False)
+    publisher           = db.Column(db.String(50))
+    location            = db.Column(db.String(50))
+    isbn13              = db.Column(db.String(13))
+    url                 = db.Column(db.String(120))
+
+    # relationships
+    milestones          = db.relationship('ResourceLink', backref = 'resource_meta', lazy = True)
+
 class Verse(db.Model):
     # identifiers
     id            = db.Column(db.Integer, primary_key = True) 
@@ -34,4 +54,13 @@ class Verse(db.Model):
     text        = db.Column(db.Text, nullable = False) 
     pericope    = db.Column(db.String(255))
 
-# TODO: Tables for topics and resources (milestones)
+class ResourceLink(db.Model):
+    # identifier
+    id          = db.Column(db.Integer, primary_key = True)
+
+    # resource linking
+    uvid        = db.Column(db.String(20), db.ForeignKey('verse.uvid'), nullable = False)
+    resource_id = db.Column(db.String(50), db.ForeignKey('resource.resource_id'), nullable = False)
+    milestone   = db.Column(db.String(40), nullable = False)
+
+# TODO: Tables for topics
