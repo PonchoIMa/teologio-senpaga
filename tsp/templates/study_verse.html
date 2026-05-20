@@ -29,10 +29,34 @@
     <main class="main-content">
         <section>
             <div class="section-title"><span class="label">komentoj</span></div>
-            {% if topics %}
+            {% if comments %}
                 <ul>
-                {% for topic in topics %}
-                    <li>{{ topic.name }}</li>
+                {% for comment in comments %}
+                    <article class="commentary-card">
+                        <div class="commentary-header">
+                            <strong>{{ comment.metadata.author_family }}, {{ comment.metadata.author_given }}</strong> 
+                            ({{ comment.metadata.publication_year }}). 
+                            <em>{{ comment.metadata.title }}</em>.
+                        </div>
+
+                        <div class="commentary-body">
+                            {% if comment.title %}
+                                <h4>{{ comment.title }}</h4>
+                            {% endif %}
+                            {% if comment.subtitle %}
+                                <h5>{{ comment.subtitle }}</h5>
+                            {% endif %}
+                            <p class="commentary-text">{{ comment.paragraph }}</p>
+                        </div>
+
+                        <div class="action-bar">
+                            <button class="btn" onclick="loadNextParagraph('{{ comment.segment_id }}')">Another Paragraph</button>
+                            <button class="btn" onclick="copyQuote('{{ comment.segment_id }}')">Quote</button>
+                            <a href="{{ comment.metadata.url }}" target="_blank" rel="noopener">
+                                <button class="btn">Find Resource</button>
+                            </a>
+                        </div>
+                    </article>
                 {% endfor %}
                 </ul>
             {% else %}

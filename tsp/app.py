@@ -1,7 +1,9 @@
-from flask import Flask, render_template
-from models import db, Verse
+import os, json, logging, traceback
+from flask import Flask, render_template, abort
+from models import db, Verse, Resource, ResourceLink
 
 app = Flask(__name__)
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
 
 # libereco is 'freedom' in Esperanto, which is what this software aims to have once completed
 # I want for tsp to be the one FOSS that everyone tunes into to do bullet bible study and without
@@ -15,7 +17,38 @@ db.init_app(app)
 @app.route('/study/verse/<uvid>')
 def study_verse(uvid):
     # Fetch data
-    verse = Verse.query.filter_by(uvid = uvid).first_or_404()
-    
-    # TODO: Add to Adamo verse.topics and verse.resources
-    return render_template('study_verse.html', verse = verse)
+    verse     = Verse.query.filter_by(uvid = uvid).first_or_404()
+    links     = ResourceLink.query.filter_by(uvid = uvid).all()
+
+    resolved_comments   = []
+    loaded_books        = {}
+
+    # Gathering comments...
+    for link in links:
+        json_filename = f'data/books/{link.resource_id}.json'
+        
+        if json_filename not in loaded_books:
+            try:
+                with open(json_filename, 'r', encoding='utf-8') as f:
+                    loaded_books[json_filename] = json.load(f)
+            except Exception as e:
+                logging.error(traceback.format_exc())
+                continue  # Skip unreadable or missing files gracefully
+        
+        book_data = loaded_books.get(json_filename)
+        if book_data:
+            # Look for the exact milestone ID entry matching the database record
+            for segment in book_data.get('segments', []):
+                if(link.milestone in segment['id']):
+                    resolved_comments.append({
+                        'metadata': book_data['metadata'],
+                        'segment_id': segment['id'],
+                        'title': segment.get('title'),
+                        'subtitle': segment.get('subtitle'),
+                        'paragraph': segment.get('paragraph')
+                    })
+
+    # TODO: Add to Adamo verse.topics
+    return render_template('study_verse.html',
+                           verse    = verse,
+                           comments = resolved_comments)

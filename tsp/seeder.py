@@ -1,6 +1,6 @@
-import json, logging
+import json, logging, argparse
 from app import app, db
-from models import BibleVersion, Verse
+from models import BibleVersion, Verse, Resource, ResourceLink
 
 def seed_database(json_path):
     with open(json_path, 'r', encoding = 'utf-8') as f:
@@ -38,7 +38,7 @@ def seed_database(json_path):
             try:
                 logging.debug(f'Adding verse {verse["uvid"]}...')
                 new_verse = Verse(
-                        version_id  = version_id, # TODO: Extract v_id from 'version'
+                        version_id  = version_id, 
                         uvid        = verse['uvid'],
                         book_name   = verse['book_name'],
                         chapter     = verse['chapter'],
@@ -54,6 +54,67 @@ def seed_database(json_path):
 
             db.session.commit()
 
+def index(filepath):
+    with open(filepath, 'r', encoding = 'utf-8') as f:
+        content = json.load(f)
+
+    # open the app to populate database
+    logging.debug('Opening app to populate database...')
+    with app.app_context():
+        db.create_all()
+        resource_meta = content['metadata']
+
+        resource = Resource.query.filter_by(resource_id = resource_meta['resource_id']).first()
+        if(not resource):
+            resource = Resource(
+                resource_id         = resource_meta['resource_id'],
+                author_family       = resource_meta['author_family'],
+                author_given        = resource_meta['author_given'],
+                publication_year    = resource_meta['publication_year'],
+                publication_month   = resource_meta['publication_month'],
+                publication_day     = resource_meta['publication_day'],
+                title               = resource_meta['title'],
+                publisher           = resource_meta['publisher'],
+                location            = resource_meta['location'],
+                isbn13              = resource_meta['isbn13'],
+                url                 = resource_meta['url']
+            )
+            db.session.add(resource)
+            db.session.commit()
+            logging.debug(f'Succesfully added resource {resource_meta["resource_id"]}!')
+        else:
+            logging.debug(f'Resource {resource_meta["resource_id"]} already exists!')
+
+        resource = Resource.query.filter_by(resource_id = resource_meta['resource_id']).first()
+        resource_id = resource.resource_id
+        logging.debug(f'Found id {resource_id} for version {resource.title}!')
+
+        for segment in content['segments']:
+            try:
+                logging.debug(f'Adding link {segment["id"]}...')
+                if(len(segment['uvid_links']) > 1):
+                    for link in segment['uvid_links']:
+                        new_link = ResourceLink(
+                            uvid        = link,
+                            resource_id = resource_id,
+                            milestone   = segment['id']
+                        )
+
+                        db.session.add(new_link)
+                else:
+                    new_link = ResourceLink(
+                        uvid        = segment['uvid_links'][0],
+                        resource_id = resource_id,
+                        milestone   = segment['id']
+                    )
+
+                    db.session.add(new_link)
+            except Exception as e:
+                logging.error(e)
+                return 1
+
+            db.session.commit()
+
 def main(verbose):
     if(verbose):
         logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
@@ -61,7 +122,23 @@ def main(verbose):
         logging.basicConfig(level = logging.WARNING) # Only show errors by default
 
     logging.debug(f'Opening file...')
-    seed_database('data/esperanto.json')
+    # seed_database('data/esperanto.json')
+    index('data/books/template.json')
 
 if(__name__ == '__main__'):
+    # TODO - Convert to argparse enriched thing...
+    """
+    parser = argparse.ArgumentParser(
+            prog        = 'seeder.py',
+            description = 'a simple database seeder',
+            epilog      = 'made with <3 by ponchoima')
+
+    parser.add_argument('-f', '--files', nargs = '+', required = True,
+                        help = 'path(s) for file(s) to parse (supports wildcards like *.utf)')
+    parser.add_argument('-v', '--verbose', action = 'store_true', default = False,
+                        help = 'outputs the steps it follows')
+
+    args = parser.parse_args()
+    main(args.verbose, args.files)
+    """
     main(1)
