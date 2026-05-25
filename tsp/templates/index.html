@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!-- TODO: Automate verse/language logic 
+<html lang="{{ verse.version_meta.language_code }}"> -->
+<html lang="eo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSP | Hejmo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+
+    <header>
+        <div>teologio senpaga</div>
+        <nav class="nav-links">
+            <a href="#" class="active">biblio</a>
+            <a href="#">topikoj</a>
+            <a href="#">blogo</a>
+            <a href="#">pri-tsp</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="logo-center">
+            tsp<span>✦</span>
+        </div>
+
+        <form class="search-container" action="/study" method="GET">
+            <input type="text" class="input-verso" name="q" placeholder="verso" required>
+            <input type="text" class="input-verzio" name="v" placeholder="verzio" value="ESP_SYN">
+            <button type="">Lerni!</button>
+        </form>
+
+        <div class="quote">
+            Ho vi, ĉiuj soifantoj, iru al la akvo, kaj vi, kiuj ne havas
+            monon; iru, aĉetu, kaj manĝu; iru, aĉetu sen mono
+            kaj sen pago vinon kaj lakton (Jesaja 55.1).
+        </div>
+    </main>
+
+    <footer>
+        <div class="donate-section">
+            <h2 class="donate-title">doni</h2>
+            <p class="donate-text">Viaj donacoj tenas nin enreta Helpu nin fari Reformitan Teologion alirebla por ĉiuj.</p>
+        </div>
+        
+        <div class="lang-selector">
+            EO 🌐
+        </div>
+    </footer>
+
+</body>
+</html>

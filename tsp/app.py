@@ -1,5 +1,5 @@
 import os, json, logging, traceback
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, request
 from models import db, Verse, Resource, ResourceLink
 
 app = Flask(__name__)
@@ -52,3 +52,27 @@ def study_verse(uvid):
     return render_template('study_verse.html',
                            verse    = verse,
                            comments = resolved_comments)
+
+@app.route('/')
+def landing_page():
+    # TODO: Remove verse (?)
+    verse     = Verse.query.filter_by(uvid = "GEN.1.1").first_or_404()
+    return render_template('index.html', verse = verse)
+
+@app.route('/study', methods = ['GET'])
+def searching_middle():
+    query = request.args['q']
+
+    # Assume verse first.
+    # TODO: Verse lookup
+    if(request.args['q']):
+        # TODO: Change routing to study/verse/
+        return study_verse(request.args['q'])
+
+    # TODO: Topic lookup
+
+    # TODO: Remove verse (?)
+    verse   = Verse.query.filter_by(uvid = "GEN.1.1").first_or_404()
+    error   = 'Content: \'{}\' not found'
+    return render_template('index.html', verse = verse)
+
