@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}TSP | Hejmo{% endblock %}
+{% block title %}TSP | 404{% endblock %}
 {% block extra_head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock %}
@@ -9,7 +9,7 @@
     <header>
         <div>teologio senpaga</div>
         <nav class="nav-links">
-            <a href="#" class="active">biblio</a>
+            <a href="#">biblio</a>
             <a href="#">topikoj</a>
             <a href="#">blogo</a>
             <a href="#">pri-tsp</a>
@@ -18,19 +18,20 @@
 
     <main>
         <div class="logo-center">
-            tsp<span>✦</span>
+           404 :(
         </div>
-
+        <div class="quote">
+            Mi erarvagis kiel perdita ŝafo; Elserĉu Vian sklavon,
+            ĉar Viajn ordonojn mi ne forgesis.
+            (<a href="{{ url_for('study_verse', uvid='PSA.119.176') }}">Psalmaro 119:176</a>).
+        </div>
+        <br/>
         <form class="search-container" action="/study" method="GET">
             <input type="text" class="input-verso" name="q" placeholder="verso" required>
             <button type="" class="input-verzio">Lerni!</button>
         </form>
 
-        <div class="quote">
-            Ho vi, ĉiuj soifantoj, iru al la akvo, kaj vi, kiuj ne havas
-            monon; iru, aĉetu, kaj manĝu; iru, aĉetu sen mono
-            kaj sen pago vinon kaj lakton (<a href="{{ url_for('study_verse', uvid='ISA.55.1') }}">Jesaja 55.1</a>).
-        </div>
+        <a href="{{ url_for('landing_page') }}">Reveni al hejmo</a>
     </main>
 
     <footer>

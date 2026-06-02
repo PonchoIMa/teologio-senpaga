@@ -16,7 +16,7 @@ body {
     padding: 2rem 4rem;
     box-sizing: border-box;
 }
-/* --- Header Navigation --- */
+
 header {
     display: flex;
     justify-content: space-between;
@@ -90,14 +90,18 @@ header {
         }
 
         .input-verzio {
+            background-color: var(--accent-green);
+            flex-grow: 1;
+            border-radius: 0% 20px 20px 0%;
+            text-align: center;
             width: 100px;
-            border-left: 2px solid var(--bg-green);
-            padding-left: 1rem;
-            color: var(--text-dark);
+            border: none;
+            /* border-left: 2px solid var(--bg-green);
+            padding-left: 1rem; */
+            color: var(--white);
             font-weight: bold;
         }
 
-        /* Bible Quote */
         .quote {
             font-family: 'Georgia', serif; /* Matching your study view text */
             font-size: 1.1rem;
