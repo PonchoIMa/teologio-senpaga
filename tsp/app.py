@@ -1,5 +1,6 @@
 import os, json, logging, traceback
-from flask import Flask, render_template, abort
+from scripts.verse_parser import uvid as uvid_parse
+from flask import Flask, render_template, abort, request, redirect, url_for
 from models import db, Verse, Resource, ResourceLink
 
 app = Flask(__name__)
@@ -13,6 +14,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///libereco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 @app.route('/study/verse/<uvid>')
 def study_verse(uvid):
@@ -52,3 +57,26 @@ def study_verse(uvid):
     return render_template('study_verse.html',
                            verse    = verse,
                            comments = resolved_comments)
+
+@app.route('/')
+def landing_page():
+    # TODO: Remove verse (?)
+    verse     = Verse.query.filter_by(uvid = "GEN.1.1").first_or_404()
+    return render_template('index.html', verse = verse)
+
+@app.route('/study', methods = ['GET'])
+def searching_middle():
+    query = request.args['q']
+
+    # Assume verse first.
+    if(request.args['q']):
+        # TODO: Verse lookup
+        return redirect(url_for('study_verse', uvid = uvid_parse(request.args['q'])))
+
+    # TODO: Topic lookup
+
+    # TODO: Remove verse (?)
+    verse   = Verse.query.filter_by(uvid = "GEN.1.1").first_or_404()
+    error   = 'Content: \'{}\' not found'
+    return render_template('index.html', verse = verse)
+

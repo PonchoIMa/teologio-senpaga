@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}TSP | Hejmo{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+    <header>
+        <div>teologio senpaga</div>
+        <nav class="nav-links">
+            <a href="#" class="active">biblio</a>
+            <a href="#">topikoj</a>
+            <a href="#">blogo</a>
+            <a href="#">pri-tsp</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="logo-center">
+            tsp<span>✦</span>
+        </div>
+
+        <form class="search-container" action="/study" method="GET">
+            <input type="text" class="input-verso" name="q" placeholder="verso" required>
+            <button type="" class="input-verzio">Lerni!</button>
+        </form>
+
+        <div class="quote">
+            Ho vi, ĉiuj soifantoj, iru al la akvo, kaj vi, kiuj ne havas
+            monon; iru, aĉetu, kaj manĝu; iru, aĉetu sen mono
+            kaj sen pago vinon kaj lakton (<a href="{{ url_for('study_verse', uvid='ISA.55.1') }}">Jesaja 55.1</a>).
+        </div>
+    </main>
+
+    <footer>
+        <div class="donate-section">
+            <h2 class="donate-title">doni</h2>
+            <p class="donate-text">Viaj donacoj tenas nin enreta Helpu nin fari Reformitan Teologion alirebla por ĉiuj.</p>
+        </div>
+        
+        <div class="lang-selector">
+            EO 🌐
+        </div>
+    </footer>
+{% endblock %}

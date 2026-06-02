@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}TSP | 404{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+    <header>
+        <div>teologio senpaga</div>
+        <nav class="nav-links">
+            <a href="#">biblio</a>
+            <a href="#">topikoj</a>
+            <a href="#">blogo</a>
+            <a href="#">pri-tsp</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="logo-center">
+           404 :(
+        </div>
+        <div class="quote">
+            Mi erarvagis kiel perdita ŝafo; Elserĉu Vian sklavon,
+            ĉar Viajn ordonojn mi ne forgesis.
+            (<a href="{{ url_for('study_verse', uvid='PSA.119.176') }}">Psalmaro 119:176</a>).
+        </div>
+        <br/>
+        <form class="search-container" action="/study" method="GET">
+            <input type="text" class="input-verso" name="q" placeholder="verso" required>
+            <button type="" class="input-verzio">Lerni!</button>
+        </form>
+
+        <a href="{{ url_for('landing_page') }}">Reveni al hejmo</a>
+    </main>
+
+    <footer>
+        <div class="donate-section">
+            <h2 class="donate-title">doni</h2>
+            <p class="donate-text">Viaj donacoj tenas nin enreta Helpu nin fari Reformitan Teologion alirebla por ĉiuj.</p>
+        </div>
+        
+        <div class="lang-selector">
+            EO 🌐
+        </div>
+    </footer>
+{% endblock %}

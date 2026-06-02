@@ -14,6 +14,12 @@
 
     <section class="sidebar">
         <span class="label">teksto</span>
+
+        <form class="search-container" action="/study" method="GET">
+            <input type="text" class="input-verso" name="q" placeholder="verso" required>
+            <button type="">Studi!</button>
+        </form>
+
         <h1>{{ verse.book_name }} {{ verse.chapter }}:{{ verse.verse }}</h1>
         <p style="color: var(--accent);">{{ verse.version_meta.title_full }}</p>
 
