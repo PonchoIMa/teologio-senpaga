@@ -41,9 +41,12 @@
             <h2 class="donate-title">{{ _('doni') }}</h2>
             <p class="donate-text">{{ _('Viaj donacoj tenas nin enreta. Helpu nin fari Reformitan Teologion alirebla por ĉiuj.') }}</p>
         </div>
-        
+
         <div class="lang-selector">
-            EO 🌐
-        </div>
+            <a href="{{ url_for('set_language', lang_code='eo') }}" style="text-decoration:none; color:inherit;">EO</a> | 
+            <a href="{{ url_for('set_language', lang_code='en') }}" style="text-decoration:none; color:inherit;">EN</a> | 
+            <a href="{{ url_for('set_language', lang_code='es') }}" style="text-decoration:none; color:inherit;">ES</a> |
+            <a href="{{ url_for('set_language', lang_code='ru') }}" style="text-decoration:none; color:inherit;">РУ</a> 🌐
+        </div>       
     </footer>
 {% endblock %}

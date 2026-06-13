@@ -1,11 +1,14 @@
 import os, json, logging, traceback
 from scripts.verse_parser import uvid as uvid_parse
-from flask import Flask, render_template, abort, request, redirect, url_for
+from flask import Flask, render_template, abort, request, redirect, url_for, session
 from flask_babel import Babel
 from models import db, Verse, Resource, ResourceLink
 
 # Initial configuration
 app     = Flask(__name__)
+
+# Session configuration
+app.secret_key = 'super-secret-key-to-change-in-productoin'
 
 # Babel configuration - Esperanto is the main language, no turning back on that
 app.config['BABEL_DEFAULT_LOCALE'] = 'eo'
@@ -16,10 +19,16 @@ app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
 
 def get_locale():
+    # get lang from session:
+    if('lang' in session):
+        return session['lang']
+
+    # url setting (manual testing)
     val = request.args.get('lang')
     if val in ['eo', 'en', 'es', 'ru']:
         return val
 
+    # browser headers
     return request.accept_languages.best_match(['eo', 'en', 'es', 'ru'])
 
 babel   = Babel(app, locale_selector = get_locale)
@@ -36,6 +45,15 @@ db.init_app(app)
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+@app.route('/setlang/<lang_code>')
+def set_language(lang_code):
+    if lang_code in ['eo', 'en', 'es', 'ru']:
+        session['lang'] = lang_code
+        logging.debug(f"Session language permanently changed to: {lang_code}")
+    
+    # Redirect back to where the user came from, or homepage if it's missing
+    return redirect(request.referrer or url_for('landing_page'))
 
 @app.route('/study/verse/<uvid>')
 def study_verse(uvid):

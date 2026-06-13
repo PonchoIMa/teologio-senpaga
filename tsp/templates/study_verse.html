@@ -32,8 +32,11 @@
 
         <span class="label">{{ _('temoj') }}</span>
         <div class="lang-selector">
-            EO 🌐
-        </div>
+            <a href="{{ url_for('set_language', lang_code='eo') }}" style="text-decoration:none; color:inherit;">EO</a> | 
+            <a href="{{ url_for('set_language', lang_code='en') }}" style="text-decoration:none; color:inherit;">EN</a> | 
+            <a href="{{ url_for('set_language', lang_code='es') }}" style="text-decoration:none; color:inherit;">ES</a> |
+            <a href="{{ url_for('set_language', lang_code='ru') }}" style="text-decoration:none; color:inherit;">РУ</a> 🌐
+        </div>       
         
     </section>
     <main class="main-content">
