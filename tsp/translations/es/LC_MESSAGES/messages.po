@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-06-13 07:32-0600\n"
+"POT-Creation-Date: 2026-06-13 13:09-0600\n"
 "PO-Revision-Date: 2026-06-06 17:18-0600\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -18,33 +18,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
+#: templates/404.html:15 templates/index.html:15
+msgid "biblio"
+msgstr "biblia"
+
+#: templates/404.html:16 templates/index.html:16
+msgid "topikoj"
+msgstr "temas"
+
+#: templates/404.html:17 templates/index.html:17
+msgid "blogo"
+msgstr "blog"
+
+#: templates/404.html:18 templates/index.html:18
+msgid "pri-tsp"
+msgstr "acerca de"
+
+#: templates/404.html:34 templates/study_verse.html:16
+msgid "verso"
+msgstr "verso"
+
+#: templates/404.html:35 templates/index.html:29
+msgid "Lerni!"
+msgstr "Estudiar"
+
+#: templates/404.html:38
+msgid "Reveni al hejmo"
+msgstr "Volver al Inicio"
+
+#: templates/404.html:43 templates/index.html:41
+msgid "doni"
+msgstr "donar"
+
+#: templates/404.html:44
+#, fuzzy
+msgid ""
+"Viaj donacoj tenas nin enreta Helpu nin fari Reformitan Teologion "
+"alirebla por ĉiuj."
+msgstr ""
+"Tus regalos nos mantienen en línea. Ayúdanos a hacer Teología Reformada "
+"accesible para todos."
+
 #: templates/index.html:3
 msgid "Hejmo"
 msgstr "Inicio"
 
-#: templates/index.html:15
-msgid "biblio"
-msgstr "biblia"
-
-#: templates/index.html:16
-msgid "topikoj"
-msgstr "temas"
-
-#: templates/index.html:17
-msgid "blogo"
-msgstr "blog"
-
-#: templates/index.html:18
-msgid "pri-tsp"
-msgstr "acerca de"
-
 #: templates/index.html:28
 msgid "biblia verso"
 msgstr "versículo bíblico"
-
-#: templates/index.html:29
-msgid "Lerni!"
-msgstr "Estudiar"
 
 #: templates/index.html:33
 msgid ""
@@ -60,10 +81,6 @@ msgstr ""
 msgid "Jesaja 55.1"
 msgstr "Isaías 55:1"
 
-#: templates/index.html:41
-msgid "doni"
-msgstr "donar"
-
 #: templates/index.html:42
 msgid ""
 "Viaj donacoj tenas nin enreta. Helpu nin fari Reformitan Teologion "
@@ -76,10 +93,6 @@ msgstr ""
 msgid "teksto"
 msgstr "texto"
 
-#: templates/study_verse.html:16
-msgid "verso"
-msgstr "verso"
-
 #: templates/study_verse.html:17
 msgid "Studi!"
 msgstr "Estudiar!"
@@ -88,23 +101,23 @@ msgstr "Estudiar!"
 msgid "temoj"
 msgstr "temas"
 
-#: templates/study_verse.html:41
+#: templates/study_verse.html:44
 msgid "komentoj"
 msgstr "comentarios"
 
-#: templates/study_verse.html:63
+#: templates/study_verse.html:66
 msgid "sekva paragrafo"
 msgstr "siguiente párrafo"
 
-#: templates/study_verse.html:64
+#: templates/study_verse.html:67
 msgid "citaĵi"
 msgstr "citar"
 
-#: templates/study_verse.html:66
+#: templates/study_verse.html:69
 msgid "trovi rekurson"
 msgstr "encontrar recursos"
 
-#: templates/study_verse.html:73
+#: templates/study_verse.html:76
 msgid "Neniu temo ligita ankoraŭ."
 msgstr "Ningún tema relacionado aún."
 

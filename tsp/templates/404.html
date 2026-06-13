@@ -2,6 +2,9 @@
 
 {% block title %}TSP | 404{% endblock %}
 {% block extra_head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock %}
 
@@ -9,10 +12,10 @@
     <header>
         <div>teologio senpaga</div>
         <nav class="nav-links">
-            <a href="#">biblio</a>
-            <a href="#">topikoj</a>
-            <a href="#">blogo</a>
-            <a href="#">pri-tsp</a>
+            <a href="#">{{ _('biblio') }}</a>
+            <a href="#">{{ _('topikoj') }}</a>
+            <a href="#">{{ _('blogo') }}</a>
+            <a href="#">{{ _('pri-tsp') }}</a>
         </nav>
     </header>
 
@@ -21,27 +24,31 @@
            404 :(
         </div>
         <div class="quote">
+            <!-- TODO: Change for a dynamic verse in the language of the user -->
             Mi erarvagis kiel perdita ŝafo; Elserĉu Vian sklavon,
             ĉar Viajn ordonojn mi ne forgesis.
             (<a href="{{ url_for('study_verse', uvid='PSA.119.176') }}">Psalmaro 119:176</a>).
         </div>
         <br/>
         <form class="search-container" action="/study" method="GET">
-            <input type="text" class="input-verso" name="q" placeholder="verso" required>
-            <button type="" class="input-verzio">Lerni!</button>
+            <input type="text" class="input-verso" name="q" placeholder="{{ _('verso') }}" required>
+            <button type="" class="input-verzio">{{ _('Lerni!') }}</button>
         </form>
 
-        <a href="{{ url_for('landing_page') }}">Reveni al hejmo</a>
+        <a href="{{ url_for('landing_page') }}">{{ _('Reveni al hejmo') }}</a>
     </main>
 
     <footer>
         <div class="donate-section">
-            <h2 class="donate-title">doni</h2>
-            <p class="donate-text">Viaj donacoj tenas nin enreta Helpu nin fari Reformitan Teologion alirebla por ĉiuj.</p>
+            <h2 class="donate-title">{{ _('doni') }}</h2>
+            <p class="donate-text">{{ _('Viaj donacoj tenas nin enreta Helpu nin fari Reformitan Teologion alirebla por ĉiuj.') }}</p>
         </div>
         
         <div class="lang-selector">
-            EO 🌐
-        </div>
+            <a href="{{ url_for('set_language', lang_code='eo') }}" style="text-decoration:none; color:inherit;">EO</a> | 
+            <a href="{{ url_for('set_language', lang_code='en') }}" style="text-decoration:none; color:inherit;">EN</a> | 
+            <a href="{{ url_for('set_language', lang_code='es') }}" style="text-decoration:none; color:inherit;">ES</a> |
+            <a href="{{ url_for('set_language', lang_code='ru') }}" style="text-decoration:none; color:inherit;">РУ</a> 🌐
+        </div>       
     </footer>
 {% endblock %}
