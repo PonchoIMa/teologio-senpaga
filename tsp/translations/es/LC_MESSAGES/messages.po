@@ -1,0 +1,110 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-06-13 07:32-0600\n"
+"PO-Revision-Date: 2026-06-06 17:18-0600\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: templates/index.html:3
+msgid "Hejmo"
+msgstr "Inicio"
+
+#: templates/index.html:15
+msgid "biblio"
+msgstr "biblia"
+
+#: templates/index.html:16
+msgid "topikoj"
+msgstr "temas"
+
+#: templates/index.html:17
+msgid "blogo"
+msgstr "blog"
+
+#: templates/index.html:18
+msgid "pri-tsp"
+msgstr "acerca de"
+
+#: templates/index.html:28
+msgid "biblia verso"
+msgstr "versículo bíblico"
+
+#: templates/index.html:29
+msgid "Lerni!"
+msgstr "Estudiar"
+
+#: templates/index.html:33
+msgid ""
+"Ho vi, ĉiuj soifantoj, iru al la akvo, kaj vi, kiuj ne havas\n"
+"            monon; iru, aĉetu, kaj manĝu; iru, aĉetu sen mono\n"
+"            kaj sen pago vinon kaj lakton"
+msgstr ""
+"Todos los sedientos, vengan a las aguas; Y los que no tengan dinero,\n"
+"           vengan, compren y coman. Vengan, compren vino y leche\n"
+"           sin dinero y sin costo alguno."
+
+#: templates/index.html:35
+msgid "Jesaja 55.1"
+msgstr "Isaías 55:1"
+
+#: templates/index.html:41
+msgid "doni"
+msgstr "donar"
+
+#: templates/index.html:42
+msgid ""
+"Viaj donacoj tenas nin enreta. Helpu nin fari Reformitan Teologion "
+"alirebla por ĉiuj."
+msgstr ""
+"Tus regalos nos mantienen en línea. Ayúdanos a hacer Teología Reformada "
+"accesible para todos."
+
+#: templates/study_verse.html:13
+msgid "teksto"
+msgstr "texto"
+
+#: templates/study_verse.html:16
+msgid "verso"
+msgstr "verso"
+
+#: templates/study_verse.html:17
+msgid "Studi!"
+msgstr "Estudiar!"
+
+#: templates/study_verse.html:33
+msgid "temoj"
+msgstr "temas"
+
+#: templates/study_verse.html:41
+msgid "komentoj"
+msgstr "comentarios"
+
+#: templates/study_verse.html:63
+msgid "sekva paragrafo"
+msgstr "siguiente párrafo"
+
+#: templates/study_verse.html:64
+msgid "citaĵi"
+msgstr "citar"
+
+#: templates/study_verse.html:66
+msgid "trovi rekurson"
+msgstr "encontrar recursos"
+
+#: templates/study_verse.html:73
+msgid "Neniu temo ligita ankoraŭ."
+msgstr "Ningún tema relacionado aún."
+

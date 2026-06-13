@@ -1,25 +1,23 @@
-<!DOCTYPE html>
-<!--Vibecoded template for copy-pasting / improving purposes... Not sticking to this thing, though-->
-<html lang="{{ verse.version_meta.language_code }}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TSP | {{ verse.uvid }}</title>
+{% extends "base.html" %}
+
+{% block title %}TSP | {{ verse.uvid }} {% endblock %}
+{% block extra_head %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-</head>
-<body>
+{% endblock %}
 
+{% block content %}
     <section class="sidebar">
-        <span class="label">teksto</span>
+        <span class="label">{{ _('teksto') }}</span>
 
         <form class="search-container" action="/study" method="GET">
-            <input type="text" class="input-verso" name="q" placeholder="verso" required>
-            <button type="">Studi!</button>
+            <input type="text" class="input-verso" name="q" placeholder="{{ _('verso') }}" required>
+            <button type="">{{ _('Studi!') }}</button>
         </form>
 
+        <!-- Verse logic, all on this is db handled -->
         <h1>{{ verse.book_name }} {{ verse.chapter }}:{{ verse.verse }}</h1>
         <p style="color: var(--accent);">{{ verse.version_meta.title_full }}</p>
 
@@ -30,11 +28,17 @@
             <span class="verse-num">[{{ verse.verse }}]</span> {{ verse.text }}
         </div>
 
-        <span class="label">temoj</span>
+        <!-- end of verse logic -->
+
+        <span class="label">{{ _('temoj') }}</span>
+        <div class="lang-selector">
+            EO 🌐
+        </div>
+        
     </section>
     <main class="main-content">
         <section>
-            <div class="section-title"><span class="label">komentoj</span></div>
+            <div class="section-title"><span class="label">{{ _('komentoj') }}</span></div>
             {% if comments %}
                 <ul>
                 {% for comment in comments %}
@@ -56,17 +60,17 @@
                         </div>
 
                         <div class="action-bar">
-                            <button class="btn" onclick="loadNextParagraph('{{ comment.segment_id }}')">Another Paragraph</button>
-                            <button class="btn" onclick="copyQuote('{{ comment.segment_id }}')">Quote</button>
+                            <button class="btn" onclick="loadNextParagraph('{{ comment.segment_id }}')">{{ _('sekva paragrafo') }}</button>
+                            <button class="btn" onclick="copyQuote('{{ comment.segment_id }}')">{{ _('citaĵi') }}</button>
                             <a href="{{ comment.metadata.url }}" target="_blank" rel="noopener">
-                                <button class="btn">Find Resource</button>
+                                <button class="btn">{{ _('trovi rekurson') }}</button>
                             </a>
                         </div>
                     </article>
                 {% endfor %}
                 </ul>
             {% else %}
-                <p style="color: var(--dim);">Neniu temo ligita ankoraŭ.</p>
+                <p style="color: var(--dim);">{{ _('Neniu temo ligita ankoraŭ.') }}</p>
             {% endif %}
         </section>
     <!--
@@ -82,5 +86,4 @@
         </section>
     -->
     </main>
-</body>
-</html>
+{% endblock %}

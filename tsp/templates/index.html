@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}TSP | Hejmo{% endblock %}
+{% block title %}TSP | {{ _('Hejmo') }} {% endblock %}
 {% block extra_head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock %}
 
@@ -9,10 +12,10 @@
     <header>
         <div>teologio senpaga</div>
         <nav class="nav-links">
-            <a href="#" class="active">biblio</a>
-            <a href="#">topikoj</a>
-            <a href="#">blogo</a>
-            <a href="#">pri-tsp</a>
+            <a href="#" class="active">{{ _('biblio') }}</a>
+            <a href="#">{{ _('topikoj') }}</a>
+            <a href="#">{{ _('blogo') }}</a>
+            <a href="#">{{ _('pri-tsp') }}</a>
         </nav>
     </header>
 
@@ -22,21 +25,21 @@
         </div>
 
         <form class="search-container" action="/study" method="GET">
-            <input type="text" class="input-verso" name="q" placeholder="verso" required>
-            <button type="" class="input-verzio">Lerni!</button>
+            <input type="text" class="input-verso" name="q" placeholder="{{ _('biblia verso') }}" required>
+            <button type="" class="input-verzio">{{ _('Lerni!') }}</button>
         </form>
 
         <div class="quote">
-            Ho vi, ĉiuj soifantoj, iru al la akvo, kaj vi, kiuj ne havas
+            {{ _('Ho vi, ĉiuj soifantoj, iru al la akvo, kaj vi, kiuj ne havas
             monon; iru, aĉetu, kaj manĝu; iru, aĉetu sen mono
-            kaj sen pago vinon kaj lakton (<a href="{{ url_for('study_verse', uvid='ISA.55.1') }}">Jesaja 55.1</a>).
+            kaj sen pago vinon kaj lakton')}} (<a href="{{ url_for('study_verse', uvid='ISA.55.1') }}">{{ _('Jesaja 55.1') }}</a>).
         </div>
     </main>
 
     <footer>
         <div class="donate-section">
-            <h2 class="donate-title">doni</h2>
-            <p class="donate-text">Viaj donacoj tenas nin enreta Helpu nin fari Reformitan Teologion alirebla por ĉiuj.</p>
+            <h2 class="donate-title">{{ _('doni') }}</h2>
+            <p class="donate-text">{{ _('Viaj donacoj tenas nin enreta. Helpu nin fari Reformitan Teologion alirebla por ĉiuj.') }}</p>
         </div>
         
         <div class="lang-selector">

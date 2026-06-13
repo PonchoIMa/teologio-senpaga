@@ -1,10 +1,28 @@
 import os, json, logging, traceback
 from scripts.verse_parser import uvid as uvid_parse
 from flask import Flask, render_template, abort, request, redirect, url_for
+from flask_babel import Babel
 from models import db, Verse, Resource, ResourceLink
 
-app = Flask(__name__)
+# Initial configuration
+app     = Flask(__name__)
+
+# Babel configuration - Esperanto is the main language, no turning back on that
+app.config['BABEL_DEFAULT_LOCALE'] = 'eo'
+app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC-6'
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
+
+# Logging
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+
+def get_locale():
+    val = request.args.get('lang')
+    if val in ['eo', 'en', 'es', 'ru']:
+        return val
+
+    return request.accept_languages.best_match(['eo', 'en', 'es', 'ru'])
+
+babel   = Babel(app, locale_selector = get_locale)
 
 # libereco is 'freedom' in Esperanto, which is what this software aims to have once completed
 # I want for tsp to be the one FOSS that everyone tunes into to do bullet bible study and without
@@ -52,7 +70,7 @@ def study_verse(uvid):
                         'subtitle': segment.get('subtitle'),
                         'paragraph': segment.get('paragraph')
                     })
-
+   
     # TODO: Add to Adamo verse.topics
     return render_template('study_verse.html',
                            verse    = verse,
