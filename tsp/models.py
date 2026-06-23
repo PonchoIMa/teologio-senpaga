@@ -46,7 +46,7 @@ class Verse(db.Model):
     version_id    = db.Column(db.Integer, db.ForeignKey('bible_version.id'), nullable = False) 
 
     # universal verse id - to identify the text to be cited.
-    uvid        = db.Column(db.String(20), unique = True, nullable = False)
+    uvid        = db.Column(db.String(20), index = True, nullable = False)
 
     book_name   = db.Column(db.String(50), nullable = False) 
     chapter     = db.Column(db.Integer, nullable = False) 
@@ -59,7 +59,7 @@ class ResourceLink(db.Model):
     id          = db.Column(db.Integer, primary_key = True)
 
     # resource linking
-    uvid        = db.Column(db.String(20), db.ForeignKey('verse.uvid'), nullable = False)
+    uvid        = db.Column(db.String(20), index = True, nullable = False)
     resource_id = db.Column(db.String(50), db.ForeignKey('resource.resource_id'), nullable = False)
     milestone   = db.Column(db.String(40), nullable = False)
 

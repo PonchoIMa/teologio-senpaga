@@ -58,12 +58,25 @@ def set_language(lang_code):
 @app.route('/study/verse/<uvid>')
 def study_verse(uvid):
     # Fetch data
-    verse     = Verse.query.filter_by(uvid = uvid).first_or_404()
-    links     = ResourceLink.query.filter_by(uvid = uvid).all()
+    verses_found    = Verse.query.filter_by(uvid = uvid).all()
+    links           = ResourceLink.query.filter_by(uvid = uvid).all()
+    
+    if(not verses_found):
+        abort(404)
 
     resolved_comments   = []
     loaded_books        = {}
 
+    # dictionary mapping the abbreviation to the verse object
+    available_versions = {v.version_meta.abbreviation: v for v in verses_found}
+    requested_version = request.args.get('v')
+
+    if(requested_version and requested_version in available_versions):
+        anchor_verse = available_versions[requested_version]
+    else:
+        # fallback to Esperanto (ESP) if no version is requested, or the first available
+        anchor_verse = available_versions.get('ESP', verses_found[0])
+    
     # Gathering comments...
     for link in links:
         json_filename = f'data/books/{link.resource_id}.json'
@@ -91,8 +104,9 @@ def study_verse(uvid):
    
     # TODO: Add to Adamo verse.topics
     return render_template('study_verse.html',
-                           verse    = verse,
-                           comments = resolved_comments)
+                           verse                = anchor_verse,
+                           available_versions   = available_versions,
+                           comments             = resolved_comments)
 
 @app.route('/')
 def landing_page():

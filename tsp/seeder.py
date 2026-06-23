@@ -115,19 +115,46 @@ def index(filepath):
 
             db.session.commit()
 
-def main(verbose):
+def main(verbose, filepaths):
+    if(verbose):
+        logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+    else:
+        logging.basicConfig(level = logging.WARNING) # Only show errors by default
+
+    # Loop through all files passed via the -f argument
+    for filepath in filepaths:
+        logging.debug(f'Opening file {filepath}...')
+        
+        # Read the file briefly to peek at its structure
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = json.load(f)
+        except Exception as e:
+            logging.error(f"Could not read {filepath}: {e}")
+            continue
+
+        # Route the file to the correct database function
+        if 'verses' in content:
+            logging.debug(f'Detected Bible text format. Sending to seed_database()...')
+            seed_database(filepath)
+        elif 'segments' in content:
+            logging.debug(f'Detected Commentary/Resource format. Sending to index()...')
+            index(filepath)
+        else:
+            logging.warning(f'Unknown file structure in {filepath}. Skipping.')
+
+"""
+def main(verbose, filepath):
     if(verbose):
         logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
     else:
         logging.basicConfig(level = logging.WARNING) # Only show errors by default
 
     logging.debug(f'Opening file...')
-    # seed_database('data/esperanto.json')
-    index('data/books/template.json')
+    index(filepath[0])
+"""
 
 if(__name__ == '__main__'):
-    # TODO - Convert to argparse enriched thing...
-    """
     parser = argparse.ArgumentParser(
             prog        = 'seeder.py',
             description = 'a simple database seeder',
@@ -140,5 +167,3 @@ if(__name__ == '__main__'):
 
     args = parser.parse_args()
     main(args.verbose, args.files)
-    """
-    main(1)
