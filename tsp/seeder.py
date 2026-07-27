@@ -36,7 +36,7 @@ def seed_database(json_path):
 
         for verse in content['verses']:
             try:
-                logging.debug(f'Adding verse {verse["uvid"]}...')
+                logging.debug(f'Adding verse {verse["uvid"]} {version}: {verse["text"]}...')
                 new_verse = Verse(
                         version_id  = version_id, 
                         uvid        = verse['uvid'],

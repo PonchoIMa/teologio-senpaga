@@ -1,7 +1,6 @@
 # xml to json
 import xml.etree.ElementTree as ET
-import json
-import os
+import json, os, re
 
 # The Protestant 66-book mapping (1 to 66) to Universal Verse ID codes
 BOOK_MAP = {
@@ -85,8 +84,11 @@ def parse_bible_xml(xml_filename, config):
                 for verse in chapter.findall('verse'):
                     verse_num = int(verse.attrib['number'])
                     # Safe text extraction to avoid the cut-off letter bug
-                    verse_text = verse.text.strip() if verse.text else ""
-                    
+                    if verse.text:
+                        verse_text = re.sub(r'([,.:;])([^ ])', r'\g<1> \g<2>', verse.text.strip()) 
+                    else:
+                        verse_text = ''
+
                     # Target UVID construction
                     uvid = f"{book_code}.{chapter_num}.{verse_num}"
                     
